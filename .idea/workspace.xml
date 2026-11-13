@@ -5,55 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fe54504b-c87f-49b4-a89e-ab562eaea22a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/agrosense.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/connection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/init.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/init.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/demo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gateway/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts/makeZip.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/alerta/controllers/alertaController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/alerta/dto/alertaDto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/alerta/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/alerta/repositories/alertaRepository.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/alerta/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/controllers/cultivoController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/controllers/productorController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/dto/cultivoDto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/dto/productorDto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/repositories/cultivoRepository.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/repositories/productorRepository.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/gestion/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/controllers/medicionController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/dto/medicionDto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/repositories/medicionRepository.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/medicion/rules.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/sensor/controllers/sensorController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/sensor/dto/sensorDto.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/sensor/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/sensor/repositories/sensorRepository.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/sensor/routes.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/shared/errors.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/shared/http.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/shared/validation.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/start.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/dto.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/integration.test.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/rules.test.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +43,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Lenovo/.gemini/antigravity/scratch/agrosense",
