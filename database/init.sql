@@ -11,8 +11,7 @@ CREATE SCHEMA IF NOT EXISTS gestion;
 
 CREATE TABLE IF NOT EXISTS gestion.productores (
     id UUID PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL CHECK (length(trim(nombre)) > 0),
-    contacto VARCHAR(255) NOT NULL CHECK (length(trim(contacto)) > 0),
+    nombre VARCHAR(255) NOT NULL CHECK (length(trim(nombre)) > 0), contacto VARCHAR(255) NOT NULL CHECK (length(trim(contacto)) > 0),
     created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
