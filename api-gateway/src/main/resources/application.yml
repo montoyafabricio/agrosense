@@ -1,0 +1,41 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        # Gestion Service - Productores y Cultivos
+        - id: gestion-service
+          uri: http://localhost:3001
+          predicates:
+            - Path=/api/productores/**, /api/cultivos/**
+
+        # Sensor Service
+        - id: sensor-service
+          uri: http://localhost:3002
+          predicates:
+            - Path=/api/sensores/**
+
+        # Medicion Service
+        - id: medicion-service
+          uri: http://localhost:3003
+          predicates:
+            - Path=/api/mediciones/**
+
+        # Alerta Service
+        - id: alerta-service
+          uri: http://localhost:3004
+          predicates:
+            - Path=/api/alertas/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,35 @@
+server:
+  port: 3003
+
+spring:
+  application:
+    name: medicion-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agrosense
+    username: postgres
+    password: fabricio1806
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: mediciones
+
+# URL del sensor-service para validar sensores
+sensor:
+  service:
+    url: http://localhost:3002
+
+# URL del alerta-service para crear alertas
+alerta:
+  service:
+    url: http://localhost:3004
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info

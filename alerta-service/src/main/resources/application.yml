@@ -1,0 +1,30 @@
+server:
+  port: 3004
+
+spring:
+  application:
+    name: alerta-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/agrosense
+    username: postgres
+    password: fabricio1806
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: alertas
+
+# URL del gestion-service para validar cultivos
+gestion:
+  service:
+    url: http://localhost:3001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
