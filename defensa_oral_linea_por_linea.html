@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSense - Guía de Defensa Oral y Explicación Línea por Línea</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+    @page {
+      size: A4;
+      margin: 15mm 15mm 15mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1e293b;
+      line-height: 1.5;
+      font-size: 10pt;
+      background-color: #f1f5f9;
+      padding: 20px;
+    }
+
+    .document-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 40px 50px;
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+    }
+
+    /* BARRA SUPERIOR IMPRIMIR */
+    .print-bar {
+      position: sticky;
+      top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 25px;
+      z-index: 1000;
+    }
+
+    .btn-pdf {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-pdf:hover {
+      background: #047857;
+      transform: translateY(-1px);
+    }
+
+    /* PORTADA */
+    .cover {
+      text-align: center;
+      padding: 25px 0 35px 0;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 30px;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 700;
+      font-size: 9pt;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid #a7f3d0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 24pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 12pt;
+      color: #475569;
+      margin-bottom: 22px;
+      font-weight: 500;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 9.5pt;
+    }
+
+    .meta-grid p {
+      margin: 2px 0;
+    }
+
+    .meta-grid strong {
+      color: #0f172a;
+    }
+
+    /* TITULOS DE SECCION */
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 2px solid #10b981;
+      padding-bottom: 6px;
+      margin-top: 32px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 22px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* CAJAS DE CODIGO Y LINEAS */
+    .code-block {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-family: 'Fira Code', monospace;
+      font-size: 8.5pt;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 12px 0;
+      border-left: 4px solid #10b981;
+    }
+
+    .code-comment { color: #64748b; font-style: italic; }
+    .code-keyword { color: #f43f5e; font-weight: bold; }
+    .code-type { color: #38bdf8; }
+    .code-string { color: #a3e635; }
+    .code-annotation { color: #fbbf24; }
+    .code-number { color: #c084fc; }
+
+    /* TABLA DE EXPLICACION LINEA POR LINEA */
+    .line-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px 0;
+      font-size: 9pt;
+      background: #ffffff;
+      page-break-inside: avoid;
+    }
+
+    .line-table th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      text-align: left;
+    }
+
+    .line-table td {
+      padding: 7px 10px;
+      border: 1px solid #cbd5e1;
+      vertical-align: top;
+    }
+
+    .line-table tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .line-num {
+      font-family: 'Fira Code', monospace;
+      font-weight: 700;
+      color: #059669;
+      width: 60px;
+      white-space: nowrap;
+    }
+
+    .line-code {
+      font-family: 'Fira Code', monospace;
+      color: #0f172a;
+      background: #f1f5f9;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 8.5pt;
+    }
+
+    .line-desc {
+      color: #334155;
+    }
+
+    /* CARDS INFORMATIVAS Y DE PREGUNTAS */
+    .qa-box {
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin: 14px 0;
+      border-top: 1px solid #e2e8f0;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      page-break-inside: avoid;
+    }
+
+    .qa-box.important {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+
+    .qa-box strong.question {
+      color: #1e3a8a;
+      font-size: 10pt;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .qa-box.important strong.question {
+      color: #92400e;
+    }
+
+    .tip-box {
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin: 14px 0;
+      font-size: 9.5pt;
+      color: #065f46;
+      page-break-inside: avoid;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+      .document-container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      .print-bar {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="document-container">
+    
+    <div class="print-bar">
+      <button class="btn-pdf" onclick="window.print()">
+        🖨️ Descargar como PDF (Ctrl + P)
+      </button>
+    </div>
+
+    <!-- PORTADA -->
+    <div class="cover">
+      <span class="tag">Guía Maestra para Defensa Oral</span>
+      <h1>AgroSense 🌱</h1>
+      <div class="subtitle">Manual de Explicación Línea por Línea del Código Fuente y Arquitectura</div>
+
+      <div class="meta-grid">
+        <div>
+          <p><strong>Alumno / Expositor:</strong> Fabricio Montoya</p>
+          <p><strong>Universidad:</strong> UNSTA</p>
+          <p><strong>Materia:</strong> Programación / Arquitectura de Software</p>
+        </div>
+        <div>
+          <p><strong>Stack Tecnológico:</strong> Java 25 (LTS) • Spring Boot 3.4 • JPA</p>
+          <p><strong>Base de Datos:</strong> PostgreSQL 16 (4 Esquemas)</p>
+          <p><strong>Repositorio GitHub:</strong> github.com/montoyafabricio/agrosense</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. RESUMEN EJECUTIVO Y ARQUITECTURA -->
+    <h2>1. Arquitectura y Fundamentos de AgroSense</h2>
+    <p>
+      <strong>AgroSense</strong> es un sistema de agricultura inteligente diseñado para capturar telemetría agroclimática de sensores en parcelas agrícolas, procesar mediciones en tiempo real, evaluar reglas agronómicas automáticas y disparar alertas preventivas para proteger la producción.
+    </p>
+
+    <div class="tip-box">
+      <strong>Estructura Arquitectónica en 3 Capas:</strong>
+      <ul>
+        <li><strong>Capa de Controladores (Controller):</strong> Expone los endpoints REST, recibe las solicitudes HTTP, aplica validaciones automáticas con Bean Validation y devuelve respuestas HTTP con códigos de estado estándar (200, 201, 400, 404).</li>
+        <li><strong>Capa de Servicios (Service):</strong> Contiene la lógica de negocio, orquesta las transacciones, evalúa las reglas agronómicas y garantiza la idempotencia (evitando alertas duplicadas en 120s).</li>
+        <li><strong>Capa de Persistencia (Repository & Model):</strong> Define las entidades mapeadas con JPA/Hibernate y repositorios que interactúan con 4 esquemas aislados en PostgreSQL: <code>gestion</code>, <code>sensores</code>, <code>mediciones</code> y <code>alertas</code>.</li>
+      </ul>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 2. PUNTO DE ENTRADA -->
+    <h2>2. Archivo 1: Punto de Entrada (AgroSenseApplication.java)</h2>
+    <p>Es la clase principal que arranca el contenedor de Spring Boot y el servidor web embebido Apache Tomcat en el puerto 8080.</p>
+
+    <div class="code-block">
+<span class="code-keyword">package</span> com.agrosense;
+
+<span class="code-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="code-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+
+<span class="code-annotation">@SpringBootApplication</span>
+<span class="code-keyword">public class</span> <span class="code-type">AgroSenseApplication</span> {
+
+    <span class="code-keyword">public static void</span> <span class="code-keyword">main</span>(String[] args) {
+        SpringApplication.run(AgroSenseApplication.<span class="code-keyword">class</span>, args);
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L1</td>
+          <td><span class="line-code">package com.agrosense;</span></td>
+          <td class="line-desc">Define el paquete raíz. Todo lo que esté dentro de este paquete o en subpaquetes será escaneado automáticamente por Spring.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L3-L4</td>
+          <td><span class="line-code">import org.springframework.boot...</span></td>
+          <td class="line-desc">Importa las clases necesarias del framework Spring Boot para el bootstrapping del servidor.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L6</td>
+          <td><span class="line-code">@SpringBootApplication</span></td>
+          <td class="line-desc">Anotación compuesta esencial. Equivale a 3 anotaciones: <code>@Configuration</code> (habilita clases de configuración), <code>@EnableAutoConfiguration</code> (autocarga librerías como JPA, Web y PostgreSQL según las dependencias de Maven) y <code>@ComponentScan</code> (busca controladores, servicios y repositorios automáticamente).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L7</td>
+          <td><span class="line-code">public class AgroSenseApplication</span></td>
+          <td class="line-desc">Declaración de la clase principal pública del proyecto.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L9</td>
+          <td><span class="line-code">public static void main(...)</span></td>
+          <td class="line-desc">Punto de entrada estándar de cualquier programa Java ejecutado por la Máquina Virtual (JVM).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L10</td>
+          <td><span class="line-code">SpringApplication.run(...)</span></td>
+          <td class="line-desc">Inicializa el contexto de Spring (ApplicationContext), levanta el servidor web Tomcat en el puerto 8080, inicializa el DataSource con PostgreSQL y arranca los servicios.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 3. ENTIDAD DE DOMINIO -->
+    <h2>3. Archivo 2: Entidad JPA (Medicion.java)</h2>
+    <p>Representa una medición climática histórica persistida en la tabla <code>mediciones.mediciones</code>.</p>
+
+    <div class="code-block">
+<span class="code-keyword">package</span> com.agrosense.model;
+
+<span class="code-keyword">import</span> jakarta.persistence.*;
+<span class="code-keyword">import</span> java.time.OffsetDateTime;
+<span class="code-keyword">import</span> java.util.UUID;
+
+<span class="code-annotation">@Entity</span>
+<span class="code-annotation">@Table</span>(name = <span class="code-string">"mediciones"</span>, schema = <span class="code-string">"mediciones"</span>)
+<span class="code-keyword">public class</span> <span class="code-type">Medicion</span> {
+
+    <span class="code-annotation">@Id</span>
+    <span class="code-annotation">@Column</span>(name = <span class="code-string">"id"</span>, nullable = <span class="code-keyword">false</span>, updatable = <span class="code-keyword">false</span>)
+    <span class="code-keyword">private</span> UUID id;
+
+    <span class="code-annotation">@Column</span>(name = <span class="code-string">"temperatura"</span>, nullable = <span class="code-keyword">false</span>)
+    <span class="code-keyword">private</span> Double temperatura;
+
+    <span class="code-annotation">@Column</span>(name = <span class="code-string">"humedad"</span>, nullable = <span class="code-keyword">false</span>)
+    <span class="code-keyword">private</span> Double humedad;
+
+    <span class="code-annotation">@Column</span>(name = <span class="code-string">"fecha"</span>, nullable = <span class="code-keyword">false</span>)
+    <span class="code-keyword">private</span> OffsetDateTime fecha;
+
+    <span class="code-annotation">@Column</span>(name = <span class="code-string">"sensor_id"</span>, nullable = <span class="code-keyword">false</span>)
+    <span class="code-keyword">private</span> UUID sensorId;
+
+    <span class="code-annotation">@PrePersist</span>
+    <span class="code-keyword">protected void</span> onCreate() {
+        <span class="code-keyword">if</span> (<span class="code-keyword">this</span>.id == <span class="code-keyword">null</span>) <span class="code-keyword">this</span>.id = UUID.randomUUID();
+        <span class="code-keyword">if</span> (<span class="code-keyword">this</span>.createdAt == <span class="code-keyword">null</span>) <span class="code-keyword">this</span>.createdAt = OffsetDateTime.now();
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L7</td>
+          <td><span class="line-code">@Entity</span></td>
+          <td class="line-desc">Indica a JPA/Hibernate que esta clase representa una tabla en la base de datos relacional.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L8</td>
+          <td><span class="line-code">@Table(name="mediciones", schema="mediciones")</span></td>
+          <td class="line-desc">Mapea la entidad al esquema PostgreSQL <code>mediciones</code>. Esto demuestra aislamiento por dominios, clave en arquitecturas de microservicios.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L11-L12</td>
+          <td><span class="line-code">@Id, @Column(..., updatable=false)</span></td>
+          <td class="line-desc">Define <code>id</code> como Clave Primaria (Primary Key). <code>updatable=false</code> garantiza que el ID nunca sea modificado después de crearse.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L13</td>
+          <td><span class="line-code">private UUID id;</span></td>
+          <td class="line-desc">Uso de identificadores universales únicos (UUID v4 de 128 bits). Previene colisiones en entornos distribuidos y evita la predictibilidad de los IDs autoincrementales.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L15-L18</td>
+          <td><span class="line-code">Double temperatura, humedad</span></td>
+          <td class="line-desc">Variables agroclimáticas obligatorias requeridas por el sensor para evaluar las reglas en tiempo real.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L21</td>
+          <td><span class="line-code">private OffsetDateTime fecha;</span></td>
+          <td class="line-desc">Manejo de fechas con zona horaria (UTC) conforme al estándar ISO-8601. Evita discrepancias horarias entre el cliente y el servidor.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L24</td>
+          <td><span class="line-code">private UUID sensorId;</span></td>
+          <td class="line-desc">Referencia lógica al sensor emisor. Al estar en esquemas desacoplados, no se usa Foreign Key rígida entre esquemas, respetando el principio de microservicios.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L26-L30</td>
+          <td><span class="line-code">@PrePersist protected void onCreate()</span></td>
+          <td class="line-desc">Hook del ciclo de vida de JPA. Se ejecuta automáticamente antes de insertar el registro en PostgreSQL: si el cliente no mandó ID, el servidor genera un <code>UUID.randomUUID()</code> de forma segura.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 4. DTO CON JAVA RECORD -->
+    <h2>4. Archivo 3: DTO con Java Records (MedicionCreateDTO.java)</h2>
+    <p>Demuestra el uso de características de Java moderno para implementar objetos de transferencia de datos (DTO) inmutables y seguros.</p>
+
+    <div class="code-block">
+<span class="code-keyword">package</span> com.agrosense.dto;
+
+<span class="code-keyword">import</span> jakarta.validation.constraints.*;
+<span class="code-keyword">import</span> java.time.OffsetDateTime;
+<span class="code-keyword">import</span> java.util.UUID;
+
+<span class="code-keyword">public record</span> <span class="code-type">MedicionCreateDTO</span>(
+    <span class="code-annotation">@NotNull</span>(message = <span class="code-string">"La temperatura es obligatoria"</span>)
+    Double temperatura,
+
+    <span class="code-annotation">@NotNull</span>(message = <span class="code-string">"La humedad es obligatoria"</span>)
+    <span class="code-annotation">@DecimalMin</span>(value = <span class="code-string">"0.0"</span>, message = <span class="code-string">"La humedad no puede ser menor a 0%"</span>)
+    <span class="code-annotation">@DecimalMax</span>(value = <span class="code-string">"100.0"</span>, message = <span class="code-string">"La humedad no puede superar 100%"</span>)
+    Double humedad,
+
+    <span class="code-annotation">@NotNull</span>(message = <span class="code-string">"La fecha y hora es obligatoria"</span>)
+    OffsetDateTime fecha,
+
+    <span class="code-annotation">@NotNull</span>(message = <span class="code-string">"El ID del sensor es obligatorio"</span>)
+    UUID sensorId
+) {
+    <span class="code-comment">// Constructor compacto para validaciones de borde matematico</span>
+    <span class="code-keyword">public</span> MedicionCreateDTO {
+        <span class="code-keyword">if</span> (temperatura != <span class="code-keyword">null</span> && (temperatura.isNaN() || temperatura.isInfinite())) {
+            <span class="code-keyword">throw new</span> IllegalArgumentException(<span class="code-string">"La temperatura debe ser un numero finito"</span>);
+        }
+        <span class="code-keyword">if</span> (humedad != <span class="code-keyword">null</span> && (humedad.isNaN() || humedad.isInfinite())) {
+            <span class="code-keyword">throw new</span> IllegalArgumentException(<span class="code-string">"La humedad debe ser un numero finito"</span>);
+        }
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L7</td>
+          <td><span class="line-code">public record MedicionCreateDTO(...)</span></td>
+          <td class="line-desc"><strong>Característica de Java moderno:</strong> Un <code>record</code> genera de forma nativa e inmutable los atributos privados y <code>final</code>, el constructor canónico, los métodos getters (<code>temperatura()</code>), <code>equals()</code>, <code>hashCode()</code> y <code>toString()</code> sin necesidad de librerías externas como Lombok.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L8-L9</td>
+          <td><span class="line-code">@NotNull(message="...")</span></td>
+          <td class="line-desc">Anotación de Jakarta Bean Validation. Si el cliente envía un JSON sin temperatura, Spring rechaza la petición con código HTTP 400 antes de tocar la base de datos.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L12-L13</td>
+          <td><span class="line-code">@DecimalMin("0.0"), @DecimalMax("100.0")</span></td>
+          <td class="line-desc">Validación de rango físico: la humedad relativa porcentual solo tiene sentido físico en el intervalo [0.0%, 100.0%]. Valores como -5% o 150% son rechazados automáticamente.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L21-L28</td>
+          <td><span class="line-code">public MedicionCreateDTO { ... }</span></td>
+          <td class="line-desc"><strong>Constructor Compacto del Record:</strong> Valida que los números no sean <code>NaN</code> (Not a Number) ni infinitos. Previene ataques de denegación o corrupción de cálculos matemáticos.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 5. CONTROLADOR REST -->
+    <h2>5. Archivo 4: Controlador REST (MedicionController.java)</h2>
+    <p>Expone los servicios HTTP para registrar y consultar mediciones de sensores.</p>
+
+    <div class="code-block">
+<span class="code-annotation">@RestController</span>
+<span class="code-annotation">@RequestMapping</span>(<span class="code-string">"/api/mediciones"</span>)
+<span class="code-keyword">public class</span> <span class="code-type">MedicionController</span> {
+
+    <span class="code-keyword">private final</span> MedicionService medicionService;
+
+    <span class="code-comment">// Inyeccion de dependencias por constructor</span>
+    <span class="code-keyword">public</span> MedicionController(MedicionService medicionService) {
+        <span class="code-keyword">this</span>.medicionService = medicionService;
+    }
+
+    <span class="code-annotation">@PostMapping</span>
+    <span class="code-keyword">public</span> ResponseEntity&lt;MedicionProcessingResponseDTO&gt; create(
+            <span class="code-annotation">@Valid</span> <span class="code-annotation">@RequestBody</span> MedicionCreateDTO dto) {
+        MedicionProcessingResponseDTO response = medicionService.create(dto);
+        <span class="code-keyword">return</span> ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    <span class="code-annotation">@PostMapping</span>(<span class="code-string">"/{id}/procesar"</span>)
+    <span class="code-keyword">public</span> ResponseEntity&lt;MedicionProcessingResponseDTO&gt; procesarReintento(
+            <span class="code-annotation">@PathVariable</span> UUID id) {
+        <span class="code-keyword">return</span> ResponseEntity.ok(medicionService.procesarReintento(id));
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L1</td>
+          <td><span class="line-code">@RestController</span></td>
+          <td class="line-desc">Combina <code>@Controller</code> y <code>@ResponseBody</code>. Transforma automáticamente las respuestas de los métodos en formato JSON para el cliente.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L2</td>
+          <td><span class="line-code">@RequestMapping("/api/mediciones")</span></td>
+          <td class="line-desc">Define la URL base para este recurso. Cumple con el estándar RESTful (sustantivos en plural).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L7-L9</td>
+          <td><span class="line-code">public MedicionController(MedicionService ...)</span></td>
+          <td class="line-desc"><strong>Inyección de Dependencias por Constructor:</strong> Es el estándar recomendado por Spring. Garantiza que la clase sea inmutable (campo <code>final</code>), facilita las pruebas unitarias con mocks y evita dependencias nulas.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L11-L13</td>
+          <td><span class="line-code">@Valid @RequestBody MedicionCreateDTO dto</span></td>
+          <td class="line-desc"><code>@RequestBody</code> deserializa el cuerpo JSON de la petición HTTP en el DTO. <code>@Valid</code> activa automáticamente las reglas de validación (<code>@NotNull</code>, <code>@DecimalMin</code>). Si fallan, dispara una excepción antes de ejecutar el método.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L15</td>
+          <td><span class="line-code">HttpStatus.CREATED</span></td>
+          <td class="line-desc">Devuelve el código de estado HTTP <strong>201 Created</strong> según la especificación RFC del protocolo HTTP para la creación exitosa de un recurso.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L18-L20</td>
+          <td><span class="line-code">@PostMapping("/{id}/procesar")</span></td>
+          <td class="line-desc">Endpoint para reprocesamiento idempotente. Si por un corte de red el servicio de alertas no pudo registrar una alerta, este endpoint permite reintentar el procesamiento sin duplicar datos.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 6. SERVICIO DE REGLAS AGRONOMICAS -->
+    <h2>6. Archivo 5: Lógica de Reglas Agronómicas (AgronomicRulesService.java)</h2>
+    <p>Núcleo agronómico del sistema. Evalúa las condiciones ambientales y genera las recomendaciones técnicas preventivas.</p>
+
+    <div class="code-block">
+<span class="code-annotation">@Service</span>
+<span class="code-keyword">public class</span> <span class="code-type">AgronomicRulesService</span> {
+
+    <span class="code-keyword">public static final double</span> REGLA_HUMEDAD_BAJA_UMBRAL = <span class="code-number">30.0</span>;
+    <span class="code-keyword">public static final double</span> REGLA_HUMEDAD_ALTA_UMBRAL = <span class="code-number">80.0</span>;
+    <span class="code-keyword">public static final double</span> REGLA_TEMPERATURA_ALTA_UMBRAL = <span class="code-number">35.0</span>;
+
+    <span class="code-keyword">public</span> List&lt;AlertaCreateDTO&gt; evaluarReglas(Double temperatura, Double humedad, UUID cultivoId, OffsetDateTime fecha) {
+        List&lt;AlertaCreateDTO&gt; alertas = <span class="code-keyword">new</span> ArrayList&lt;&gt;();
+        OffsetDateTime fechaActual = fecha != <span class="code-keyword">null</span> ? fecha : OffsetDateTime.now();
+
+        <span class="code-comment">// Regla 1: Humedad baja (humedad &lt; 30)</span>
+        <span class="code-keyword">if</span> (humedad != <span class="code-keyword">null</span> && humedad &lt; REGLA_HUMEDAD_BAJA_UMBRAL) {
+            alertas.add(<span class="code-keyword">new</span> AlertaCreateDTO(<span class="code-string">"RIEGO"</span>, <span class="code-string">"Revisar la necesidad de riego."</span>, AlertaPrioridad.ALTA, fechaActual, cultivoId));
+        }
+
+        <span class="code-comment">// Regla 2: Humedad alta (humedad &gt; 80)</span>
+        <span class="code-keyword">if</span> (humedad != <span class="code-keyword">null</span> && humedad &gt; REGLA_HUMEDAD_ALTA_UMBRAL) {
+            alertas.add(<span class="code-keyword">new</span> AlertaCreateDTO(<span class="code-string">"EXCESO_HUMEDAD"</span>, <span class="code-string">"Revisar el drenaje antes de regar."</span>, AlertaPrioridad.MEDIA, fechaActual, cultivoId));
+        }
+
+        <span class="code-comment">// Regla 3: Calor excesivo (temperatura &gt; 35)</span>
+        <span class="code-keyword">if</span> (temperatura != <span class="code-keyword">null</span> && temperatura &gt; REGLA_TEMPERATURA_ALTA_UMBRAL) {
+            alertas.add(<span class="code-keyword">new</span> AlertaCreateDTO(<span class="code-string">"CALOR"</span>, <span class="code-string">"Revisar condiciones por temperatura elevada."</span>, AlertaPrioridad.ALTA, fechaActual, cultivoId));
+        }
+
+        <span class="code-keyword">return</span> alertas;
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L1</td>
+          <td><span class="line-code">@Service</span></td>
+          <td class="line-desc">Indica a Spring que esta clase es un Bean de la capa de servicio que encapsula lógica de negocio y debe ser gestionado por el contenedor IoC (Inversion of Control).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L4-L6</td>
+          <td><span class="line-code">public static final double UMBRAL_...</span></td>
+          <td class="line-desc">Definición de constantes inmutables (30.0%, 80.0%, 35.0°C). Evita "números mágicos" hardcodeados en el código y facilita su mantenimiento o calibración.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L11-L14</td>
+          <td><span class="line-code">if (humedad &lt; 30.0)</span></td>
+          <td class="line-desc"><strong>Regla de Estrés Hídrico:</strong> Condición estricta menor que 30%. Dispara alerta preventiva tipo <code>RIEGO</code> con prioridad <code>ALTA</code> para advertir riesgo de marchitez en el cultivo.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L16-L19</td>
+          <td><span class="line-code">if (humedad &gt; 80.0)</span></td>
+          <td class="line-desc"><strong>Regla de Saturación Hídrica:</strong> Condición mayor que 80%. Dispara alerta tipo <code>EXCESO_HUMEDAD</code> con prioridad <code>MEDIA</code> para advertir riesgo de asfixia radicular y proliferación de hongos.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L21-L24</td>
+          <td><span class="line-code">if (temperatura &gt; 35.0)</span></td>
+          <td class="line-desc"><strong>Regla de Estrés Térmico:</strong> Condición mayor que 35°C. Dispara alerta tipo <code>CALOR</code> con prioridad <code>ALTA</code> por evaporación crítica.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L26</td>
+          <td><span class="line-code">return alertas;</span></td>
+          <td class="line-desc">Devuelve la lista de alertas generadas. Si se cumplen calor y sequía a la vez (ej. 38°C y 20%), el método genera y retorna ambas alertas de forma independiente.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- 7. REPOSITORIO Y CONSULTAS JPQL -->
+    <h2>7. Archivo 6: Repositorio JPA e Idempotencia (AlertaRepository.java)</h2>
+    <p>Gestiona la persistencia de alertas y contiene la consulta JPQL para la ventana de deduplicación temporal.</p>
+
+    <div class="code-block">
+<span class="code-annotation">@Repository</span>
+<span class="code-keyword">public interface</span> <span class="code-type">AlertaRepository</span> <span class="code-keyword">extends</span> JpaRepository&lt;Alerta, UUID&gt; {
+
+    List&lt;Alerta&gt; findByCultivoIdOrderByFechaDesc(UUID cultivoId);
+
+    <span class="code-annotation">@Query</span>(<span class="code-string">"SELECT a FROM Alerta a WHERE a.cultivoId = :cultivoId AND a.tipo = :tipo "</span> +
+           <span class="code-string">"AND a.fecha BETWEEN :fromTime AND :toTime ORDER BY a.fecha DESC"</span>)
+    List&lt;Alerta&gt; findDuplicates(
+        <span class="code-annotation">@Param</span>(<span class="code-string">"cultivoId"</span>) UUID cultivoId,
+        <span class="code-annotation">@Param</span>(<span class="code-string">"tipo"</span>) String tipo,
+        <span class="code-annotation">@Param</span>(<span class="code-string">"fromTime"</span>) OffsetDateTime fromTime,
+        <span class="code-annotation">@Param</span>(<span class="code-string">"toTime"</span>) OffsetDateTime toTime
+    );
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L2</td>
+          <td><span class="line-code">extends JpaRepository&lt;Alerta, UUID&gt;</span></td>
+          <td class="line-desc">Spring Data JPA implementa automáticamente en tiempo de ejecución las operaciones CRUD completas (<code>save()</code>, <code>findById()</code>, <code>delete()</code>, paginación) sin escribir una sola línea de SQL.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L4</td>
+          <td><span class="line-code">findByCultivoIdOrderByFechaDesc(...)</span></td>
+          <td class="line-desc"><strong>Método de consulta derivado (Query Method):</strong> Spring analiza el nombre del método y genera automáticamente la consulta SQL: <code>SELECT * FROM alertas WHERE cultivo_id = ? ORDER BY fecha DESC</code>.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L6-L8</td>
+          <td><span class="line-code">@Query("SELECT a FROM Alerta a WHERE ...")</span></td>
+          <td class="line-desc"><strong>Consulta JPQL (Java Persistence Query Language):</strong> Consulta orientada a objetos (opera sobre la entidad <code>Alerta a</code> y no sobre tablas físicas).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L9-L14</td>
+          <td><span class="line-code">findDuplicates(...) con BETWEEN</span></td>
+          <td class="line-desc"><strong>Control de Idempotencia:</strong> Busca si en una ventana de 120 segundos ya existe una alerta del mismo tipo para ese cultivo. Si existe, no se inserta una duplicada, evitando saturar al productor agrícola con cientos de notificaciones repetidas.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 8. MANEJO GLOBAL DE EXCEPCIONES -->
+    <h2>8. Archivo 7: Manejador Global de Errores (GlobalExceptionHandler.java)</h2>
+    <p>Centraliza la captura de excepciones para devolver respuestas JSON estandarizadas ante fallos del cliente o del servidor.</p>
+
+    <div class="code-block">
+<span class="code-annotation">@RestControllerAdvice</span>
+<span class="code-keyword">public class</span> <span class="code-type">GlobalExceptionHandler</span> {
+
+    <span class="code-annotation">@ExceptionHandler</span>(ResourceNotFoundException.<span class="code-keyword">class</span>)
+    <span class="code-keyword">public</span> ResponseEntity&lt;AppErrorResponse&gt; handleNotFound(ResourceNotFoundException ex, HttpServletRequest req) {
+        AppErrorResponse response = AppErrorResponse.of(<span class="code-string">"NotFoundError"</span>, ex.getMessage(), <span class="code-keyword">null</span>, req.getRequestURI());
+        <span class="code-keyword">return</span> ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    <span class="code-annotation">@ExceptionHandler</span>(MethodArgumentNotValidException.<span class="code-keyword">class</span>)
+    <span class="code-keyword">public</span> ResponseEntity&lt;AppErrorResponse&gt; handleValidation(MethodArgumentNotValidException ex, HttpServletRequest req) {
+        Map&lt;String, String&gt; errors = <span class="code-keyword">new</span> HashMap&lt;&gt;();
+        <span class="code-keyword">for</span> (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.put(error.getField(), error.getDefaultMessage());
+        }
+        AppErrorResponse response = AppErrorResponse.of(<span class="code-string">"ValidationError"</span>, <span class="code-string">"Error en validacion de datos"</span>, errors, req.getRequestURI());
+        <span class="code-keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+}</div>
+
+    <table class="line-table">
+      <thead>
+        <tr>
+          <th>Líneas</th>
+          <th>Código</th>
+          <th>Explicación Técnica para la Defensa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="line-num">L1</td>
+          <td><span class="line-code">@RestControllerAdvice</span></td>
+          <td class="line-desc">Anotación basada en AOP (Programación Orientada a Aspectos). Intercepta cualquier excepción ocurrida en cualquier controlador de la aplicación.</td>
+        </tr>
+        <tr>
+          <td class="line-num">L4-L8</td>
+          <td><span class="line-code">@ExceptionHandler(ResourceNotFoundException.class)</span></td>
+          <td class="line-desc">Captura cuando un recurso no existe (ej. un sensor con un UUID que no figura en la base). Devuelve <strong>HTTP 404 Not Found</strong> con un mensaje limpio en lugar de un volcado feo de error de servidor (500).</td>
+        </tr>
+        <tr>
+          <td class="line-num">L10-L19</td>
+          <td><span class="line-code">handleValidation(MethodArgumentNotValidException)</span></td>
+          <td class="line-desc">Captura las violaciones de Jakarta Validation (por ejemplo, si mandan humedad = -10%). Recorre los <code>FieldErrors</code> y devuelve un mapa detallando exactamente qué campo falló y por qué, con <strong>HTTP 400 Bad Request</strong>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 9. PREGUNTAS CLAVE DE LA MESA EXAMINADORA -->
+    <h2>9. Preguntas Frecuentes de Profesores y Respuestas de Alto Nivel</h2>
+
+    <div class="qa-box important">
+      <strong class="question">❓ Pregunta 1: "¿Por qué usaron UUID en lugar de un Long autoincremental en las entidades?"</strong>
+      <p>
+        <strong>Respuesta:</strong> <em>"En arquitecturas modernas y orientadas a microservicios, los IDs autoincrementales generan dos problemas graves: primero, acoplan la generación de claves a un único motor de base de datos centralizado; segundo, exponen riesgos de seguridad ya que permiten deducir cuántos registros existen mediante un ataque de enumeración (adivinar IDs 1, 2, 3...). Al utilizar <code>UUID v4</code> de 128 bits, los identificadores son generados de forma distribuida por el servidor con una probabilidad de colisión prácticamente nula y sin exponer secuencias internas."</em>
+      </p>
+    </div>
+
+    <div class="qa-box important">
+      <strong class="question">❓ Pregunta 2: "¿Por qué la entidad Alerta NO tiene un atributo medicionId si una medición es la que dispara la alerta?"</strong>
+      <p>
+        <strong>Respuesta:</strong> <em>"Por fidelidad estricta al <strong>Diagrama de Clases del Dominio original</strong>. En el modelo de negocio, una alerta pertenece a un <code>Cultivo</code> (el cultivo es el activo afectado que necesita atención agronómica), no a un número de telemetría. La relación entre Medición y Alerta es una dependencia funcional en la capa de servicios, pero persistir <code>medicionId</code> en Alerta hubiese sido inventar un atributo ajeno al modelo acordado."</em>
+      </p>
+    </div>
+
+    <div class="qa-box">
+      <strong class="question">❓ Pregunta 3: "¿Qué es un Java Record y qué ventaja aportó a los DTOs?"</strong>
+      <p>
+        <strong>Respuesta:</strong> <em>"Los <code>Records</code> son una característica estándar de Java moderno. Representan portadores de datos inmutables y transparentes. Reemplazan las clases boilerplate tradicionales eliminando la necesidad de escribir getters, constructores, equals y hashcode, y garantizan que los datos viajen inmutables desde que ingresan por la capa web hasta que son procesados."</em>
+      </p>
+    </div>
+
+    <div class="qa-box">
+      <strong class="question">❓ Pregunta 4: "¿Cómo evitaron que un sensor enviando datos continuamente sature la base de datos de alertas repetidas?"</strong>
+      <p>
+        <strong>Respuesta:</strong> <em>"Implementamos un <strong>mecanismo de Idempotencia Temporal</strong> en el servicio de alertas. Cuando se evalúa una condición crítica (por ejemplo, humedad menor a 30%), antes de persistir la alerta se realiza una consulta JPQL con <code>BETWEEN</code> para verificar si en una ventana de 120 segundos ya se emitió una alerta del mismo tipo para ese cultivo. Si ya existe, se omite el duplicado."</em>
+      </p>
+    </div>
+
+    <div class="qa-box">
+      <strong class="question">❓ Pregunta 5: "¿Por qué en pom.xml el compiler target es Java 21 si instalamos y ejecutamos con el JDK 25?"</strong>
+      <p>
+        <strong>Respuesta:</strong> <em>"Cumplimos con el uso del entorno <strong>Java 25</strong>: el proyecto está compilado con el compilador de Java 25 y se ejecuta sobre la máquina virtual (JVM) de Java 25. Sin embargo, frameworks empresariales como Spring Boot 3 emplean la librería <code>ASM</code> para el escaneo de componentes en tiempo de ejecución. Configurar el target en versión de bytecode compatible (21) le permite a Spring Framework leer los archivos compilados sin que el ClassReader aborte con un error de versión, asegurando máxima estabilidad y portabilidad."</em>
+      </p>
+    </div>
+
+    <!-- 10. GUION PARA LA DEFENSA ORAL -->
+    <h2>10. Guion Cronometrado para la Exposición Oral (5 Minutos)</h2>
+    
+    <ol>
+      <li><strong>Minuto 1 — Introducción al Problema:</strong>  
+        <em>"Buenas tardes profesores. AgroSense es una plataforma de agricultura de precisión desarrollada en Spring Boot 3 y Java 25. Su objetivo es recibir lecturas ambientales de sensores en campo, aplicar reglas agronómicas automatizadas y disparar alertas tempranas de riesgo de riego, exceso de humedad o calor térmico."</em>
+      </li>
+      <li><strong>Minuto 2 — Arquitectura y Modelo de Datos:</strong>  
+        <em>"Implementamos una arquitectura modular en tres capas: Controladores REST, Servicios de Negocio y Repositorios JPA. La persistencia en PostgreSQL está dividida lógicamente en 4 esquemas: gestión, sensores, mediciones y alertas, respetando estrictamente las 5 entidades del diagrama de clases original con identificadores UUID v4."</em>
+      </li>
+      <li><strong>Minuto 3 — Tecnologías de Vanguardia:</strong>  
+        <em>"Aprovechamos características de Java moderno implementando DTOs inmutables mediante Java Records y validación declarativa con Jakarta Bean Validation. Además, centralizamos el control de errores con un <code>@RestControllerAdvice</code> que garantiza respuestas uniformes en formato JSON."</em>
+      </li>
+      <li><strong>Minuto 4 — Lógica de Negocio y Resiliencia:</strong>  
+        <em>"En el núcleo agronómico evaluamos umbrales estrictos de humedad y temperatura. Para evitar saturación de falsos positivos o notificaciones masivas, desarrollamos un control de idempotencia con ventana temporal de 120 segundos mediante consultas JPQL personalizadas."</em>
+      </li>
+      <li><strong>Minuto 5 — Demostración y Cierre:</strong>  
+        <em>"El sistema cuenta con un conjunto de pruebas automatizadas en JUnit 5 y documentación interactiva autogenerada mediante OpenAPI / Swagger UI en el puerto 8080. Quedo a disposición de la mesa para responder sus preguntas."</em>
+      </li>
+    </ol>
+
+  </div>
+
+</body>
+</html>
