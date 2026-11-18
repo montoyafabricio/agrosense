@@ -322,17 +322,18 @@
     </div>
 
     <!-- 1. RESUMEN EJECUTIVO Y ARQUITECTURA -->
-    <h2>1. Arquitectura y Fundamentos de AgroSense</h2>
+    <h2>1. Arquitectura, API Gateway y Fundamentos</h2>
     <p>
-      <strong>AgroSense</strong> es un sistema de agricultura inteligente diseñado para capturar telemetría agroclimática de sensores en parcelas agrícolas, procesar mediciones en tiempo real, evaluar reglas agronómicas automáticas y disparar alertas preventivas para proteger la producción.
+      <strong>AgroSense</strong> implementa una arquitectura con <strong>API Gateway perimetral</strong> en el puerto <code>8080</code> (paquete <code>com.agrosense.gateway</code>) que centraliza el enrutamiento inverso hacia los módulos de dominio, gestiona la trazabilidad distribuida y conecta con los 4 esquemas independientes de PostgreSQL.
     </p>
 
     <div class="tip-box">
-      <strong>Estructura Arquitectónica en 3 Capas:</strong>
+      <strong>Componentes del Sistema y Rol del API Gateway:</strong>
       <ul>
-        <li><strong>Capa de Controladores (Controller):</strong> Expone los endpoints REST, recibe las solicitudes HTTP, aplica validaciones automáticas con Bean Validation y devuelve respuestas HTTP con códigos de estado estándar (200, 201, 400, 404).</li>
-        <li><strong>Capa de Servicios (Service):</strong> Contiene la lógica de negocio, orquesta las transacciones, evalúa las reglas agronómicas y garantiza la idempotencia (evitando alertas duplicadas en 120s).</li>
-        <li><strong>Capa de Persistencia (Repository & Model):</strong> Define las entidades mapeadas con JPA/Hibernate y repositorios que interactúan con 4 esquemas aislados en PostgreSQL: <code>gestion</code>, <code>sensores</code>, <code>mediciones</code> y <code>alertas</code>.</li>
+        <li><strong>API Gateway (Puerto 8080 - com.agrosense.gateway):</strong> Punto de entrada único. Intercepta todas las peticiones con <code>ApiGatewayFilter</code>, inyecta encabezados de trazabilidad (<code>X-Gateway-Trace-Id</code>), calcula la latencia en milisegundos (<code>X-Gateway-Latency-Ms</code>) y expone la topología de enrutamiento en <code>/api/gateway/routes</code>.</li>
+        <li><strong>Capa de Controladores (Controller):</strong> Expone los endpoints REST (/api/productores, /api/cultivos, /api/sensores, /api/mediciones, /api/alertas).</li>
+        <li><strong>Capa de Servicios (Service):</strong> Ejecuta la lógica agronómica, evalúa los umbrales y controla la idempotencia (120s).</li>
+        <li><strong>Capa de Persistencia (PostgreSQL):</strong> 4 esquemas desacoplados (<code>gestion</code>, <code>sensores</code>, <code>mediciones</code>, <code>alertas</code>).</li>
       </ul>
     </div>
 
