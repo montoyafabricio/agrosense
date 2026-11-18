@@ -1,37 +1,42 @@
-# AgroSense 🌱
+# AgroSense 🌱 (Spring Boot & Java 25)
 
-> Sistema de agricultura inteligente basado en una arquitectura backend de microservicios para la telemetría y monitoreo de parcelas agrícolas.
+> Sistema de agricultura inteligente basado en una arquitectura backend modular en **Spring Boot 3** y **Java 25 (LTS)** para la telemetría, monitoreo y reglas agronómicas automatizadas sobre parcelas agrícolas.
 
 ---
 
 ## 📋 Descripción
 
-**AgroSense** centraliza la ingesta y validación de datos telemétricos provenientes de sensores en campo (humedad, temperatura, etc.), evalúa reglas agronómicas en tiempo real y dispara alertas automatizadas para prevenir daños en cultivos.
+**AgroSense** centraliza la ingesta y validación de datos telemétricos provenientes de sensores en campo (humedad y temperatura), evalúa reglas agronómicas en tiempo real y dispara alertas automatizadas con control de idempotencia para prevenir daños en cultivos.
+
+El proyecto está desarrollado completamente en **Java 25**, utilizando **Spring Boot 3**, **Spring Data JPA**, **Jakarta Bean Validation (DTOs)**, **PostgreSQL** con múltiples esquemas de base de datos (`gestion`, `sensores`, `mediciones`, `alertas`) y pruebas exhaustivas con **JUnit 5**.
 
 ---
 
 ## 🏗️ Arquitectura del Sistema
 
-El sistema implementa una arquitectura desacoplada coordinada por un **API Gateway**:
+El sistema implementa una arquitectura desacoplada por módulos de dominio bajo un servidor unificado Spring Boot:
 
-| Componente | Puerto | Responsabilidad |
+| Módulo | Ruta Base | Responsabilidad |
 |---|---|---|
-| **API Gateway** | `8080` | Punto de entrada único, enrutamiento proxy, manejo de timeouts y códigos de error unificados. |
-| **Gestión Service** | `3001` | Administración de productores, parcelas y umbrales de cultivos. |
-| **Sensor Service** | `3002` | Registro, vinculación y estado operativo de sensores IoT. |
-| **Medición Service** | `3003` | Recepción de telemetría, validación de esquemas (Zod) y persistencia temporal. |
-| **Alerta Service** | `3004` | Evaluación de reglas de negocio y generación de incidentes/alertas. |
-| **PostgreSQL** | `5432` | Base de datos relacional con particionamiento y restricciones de integridad. |
+| **Gestión** | `/api/productores`, `/api/cultivos` | Administración de productores agrícolas y cultivos con validaciones de integridad referencial. |
+| **Sensores** | `/api/sensores` | Catálogo, vinculación a cultivos y estado operativo de sensores IoT (`activo`, `inactivo`, `mantenimiento`). |
+| **Mediciones** | `/api/mediciones` | Recepción de telemetría, validación de rangos, persistencia temporal y evaluación de reglas agronómicas. |
+| **Alertas** | `/api/alertas` | Generación de incidentes/alertas con control de idempotencia (ventana temporal de 120s) y filtro por prioridad. |
+| **Salud** | `/health` | Diagnóstico de disponibilidad del servicio y sus componentes. |
+| **PostgreSQL** | `:5432` | Base de datos relacional con partición lógica en 4 esquemas (`gestion`, `sensores`, `mediciones`, `alertas`). |
 
 ---
 
 ## 🛠️ Stack Tecnológico
 
-- **Runtime:** Node.js (v20+ / v24, ESM)
-- **Framework Web:** Express 5
-- **Base de Datos:** PostgreSQL con driver nativo `pg`
-- **Validación de Datos:** Zod
-- **Testing:** Node.js Native Test Runner (`node --test`)
+- **Runtime:** Java 25 (LTS)
+- **Framework:** Spring Boot 3.4.0
+- **Persistencia:** Spring Data JPA / Hibernate
+- **Base de Datos:** PostgreSQL (Driver nativo `org.postgresql:postgresql`)
+- **Validación de Datos:** Jakarta Bean Validation (`spring-boot-starter-validation`) con Java 25 Records como DTOs
+- **Documentación de API:** OpenAPI 3 & Swagger UI (`springdoc-openapi`)
+- **Testing:** JUnit 5 (Jupiter), Mockito, MockMvc, H2 Database para pruebas aisladas
+- **Build Tool:** Apache Maven & Maven Wrapper (`mvnw` / `mvnw.cmd`)
 
 ---
 
@@ -39,19 +44,33 @@ El sistema implementa una arquitectura desacoplada coordinada por un **API Gatew
 
 ```text
 agrosense/
-├── database/           # Conexión, pool y scripts SQL de inicialización
-├── gateway/            # API Gateway y enrutador proxy
-├── services/
-│   ├── alerta/         # Microservicio de alertas y notificaciones
-│   ├── gestion/        # Microservicio de productores y cultivos
-│   ├── medicion/       # Microservicio de ingesta de telemetría
-│   ├── sensor/         # Microservicio de catálogo de sensores
-│   └── shared/         # DTOs, validaciones Zod, utilidades y reglas
-├── test/               # Pruebas unitarias y de integración
-├── demo.js             # Simulación automatizada de flujo completo
-├── start.js            # Orquestador de arranque de todos los microservicios
-├── documentacion.html  # Informe técnico detallado
-└── package.json
+├── pom.xml                                      # Configuración Maven con Java 25 y Spring Boot
+├── mvnw / mvnw.cmd                              # Maven Wrapper para compilación sin requerir Maven instalado
+├── .mvn/wrapper/                                # Configuración del Wrapper de Maven
+├── database/
+│   └── init.sql                                 # Script SQL DDL de inicialización de esquemas y tablas
+├── src/
+│   ├── main/
+│   │   ├── java/com/agrosense/
+│   │   │   ├── AgroSenseApplication.java        # Punto de entrada principal Spring Boot
+│   │   │   ├── config/                          # Configuración CORS y Web
+│   │   │   ├── controller/                      # Controladores REST (/api/productores, cultivos, etc.)
+│   │   │   ├── dto/                             # Data Transfer Objects (Records) con validaciones estrictas
+│   │   │   ├── exception/                       # Manejador global de excepciones y respuestas de error
+│   │   │   ├── model/                           # Entidades JPA y Enums vinculados a los esquemas PostgreSQL
+│   │   │   ├── repository/                      # Repositorios Spring Data JPA
+│   │   │   └── service/                         # Lógica de negocio y motor de reglas agronómicas
+│   │   └── resources/
+│   │       ├── application.yml                  # Configuración de PostgreSQL y aplicación
+│   │       ├── schema.sql                       # DDL de PostgreSQL
+│   │       └── db/migration/                    # Migraciones Flyway
+│   └── test/
+│       └── java/com/agrosense/
+│           ├── rules/                           # Pruebas unitarias del motor de reglas agronómicas
+│           ├── dto/                             # Pruebas unitarias de validación Jakarta Bean Validation
+│           ├── service/                         # Pruebas unitarias de servicios con Mockito
+│           └── controller/                      # Pruebas de integración WebMvcTest con MockMvc
+└── README.md
 ```
 
 ---
@@ -59,71 +78,90 @@ agrosense/
 ## 🚀 Puesta en Marcha
 
 ### 1. Prerrequisitos
-- Node.js (>= 20.x)
-- PostgreSQL corriendo localmente o en contenedor
+- **Java Development Kit (JDK) 25** instalado (disponible en `C:\Program Files\Java\jdk-25.0.4.1` o variable `JAVA_HOME`).
+- **PostgreSQL** corriendo localmente en el puerto `5432` con la base de datos `agrosense`.
 
-### 2. Instalación y Configuración
+### 2. Configurar Base de Datos PostgreSQL
 
-```bash
-# Instalar dependencias
-npm install
+Puedes usar las credenciales por defecto o definir variables de entorno:
 
-# Configurar variables de entorno
-cp .env.example .env
-```
-
-Edita `.env` con tus credenciales de PostgreSQL:
 ```env
 DB_HOST=localhost
 DB_PORT=5432
 DB_NAME=agrosense
 DB_USER=postgres
 DB_PASSWORD=tu_password
+SERVER_PORT=8080
 ```
 
-### 3. Inicializar Base de Datos
+Al arrancar la aplicación, Spring Boot ejecutará automáticamente `schema.sql` para inicializar los 4 esquemas (`gestion`, `sensores`, `mediciones`, `alertas`) y sus tablas e índices.
 
-Crea las tablas, índices y datos iniciales:
+### 3. Compilación y Ejecución
+
+Utiliza el Maven Wrapper incluido:
+
 ```bash
-npm run db:init
+# En Windows:
+.\mvnw.cmd spring-boot:run
+
+# En Linux/macOS:
+./mvnw spring-boot:run
 ```
 
-### 4. Iniciar el Sistema
-
-Levanta todos los microservicios y el API Gateway en un solo comando:
+O si tienes `mvn` en tu PATH:
 ```bash
-npm start
+mvn spring-boot:run
 ```
 
 ---
 
-## 🧪 Pruebas y Demostración
+## 🧪 Pruebas Unitarias (JUnit 5)
+
+Ejecuta todas las pruebas unitarias y de controladores con:
 
 ```bash
-# Ejecutar todas las pruebas (unitarias e integración)
-npm test
-
-# Ejecutar solo pruebas unitarias
-npm run test:unit
-
-# Ejecutar simulación de flujo completo (productores, sensores, mediciones y alertas)
-npm run demo
+.\mvnw.cmd test
 ```
+
+### Cobertura de pruebas unitarias:
+1. **`AgronomicRulesTest`**: Evaluación estricta de umbrales agronómicos demostrativos:
+   - Humedad < 30% -> `RIEGO` (alta).
+   - Humedad > 80% -> `EXCESO_HUMEDAD` (media).
+   - Temperatura > 35°C -> `CALOR` (alta).
+   - Combinaciones simultáneas y valores de borde (30%, 80%, 35°C).
+2. **`DtoValidationTest`**: Verificación de validaciones en DTOs (`@NotBlank`, `@Positive`, `@DecimalMin`, `@DecimalMax`, rangos de humedad 0-100%, etc.).
+3. **`ProductorServiceTest`**: Operaciones CRUD y protección de integridad referencial (no eliminar productor con cultivos).
+4. **`CultivoServiceTest`**: Validaciones de productor existente y restricciones para evitar huérfanos en sensores y alertas.
+5. **`SensorServiceTest`**: Validaciones de cultivo existente y restricción de eliminación si tiene mediciones históricas.
+6. **`MedicionServiceTest`**: Ingesta telemétrica, rechazo de sensores inactivos, disparo de alertas y estado de procesamiento.
+7. **`AlertaServiceTest`**: Control de idempotencia (detección de alertas duplicadas en ventana de 120s).
+8. **`ProductorControllerTest` & `MedicionControllerTest`**: Pruebas de integración de capa web (`MockMvc`).
 
 ---
 
-## 📡 Endpoints Principales (vía API Gateway `:8080`)
+## 📡 Endpoints de la API
 
-| Módulo | Ruta | Método | Descripción |
+| Módulo | Método | Endpoint | Descripción |
 |---|---|---|---|
-| **Productores** | `/api/productores` | `GET` / `POST` | Listar y crear productores agrícolas |
-| **Cultivos** | `/api/cultivos` | `GET` / `POST` | Gestionar cultivos y parámetros óptimos |
-| **Sensores** | `/api/sensores` | `GET` / `POST` | Registro y consulta de dispositivos de campo |
-| **Mediciones** | `/api/mediciones` | `GET` / `POST` | Envío de telemetría y consulta histórica |
-| **Alertas** | `/api/alertas` | `GET` / `PATCH` | Monitoreo y resolución de alertas activas |
-
----
-
-## 📄 Documentación Técnica
-
-El repositorio incluye un informe técnico exhaustivo con diagramas y decisiones de diseño en [documentacion.html](documentacion.html) (listo para previsualizar o exportar a PDF con `Ctrl + P`).
+| **Salud** | `GET` | `/health` | Estado del backend y componentes |
+| **Productores** | `GET` | `/api/productores` | Listar todos los productores |
+| **Productores** | `POST` | `/api/productores` | Crear un productor (`nombre`, `contacto`) |
+| **Productores** | `GET` | `/api/productores/{id}` | Obtener productor por ID |
+| **Productores** | `PUT` | `/api/productores/{id}` | Actualizar productor |
+| **Productores** | `DELETE` | `/api/productores/{id}` | Eliminar productor (valida sin cultivos) |
+| **Cultivos** | `GET` | `/api/cultivos` | Listar cultivos |
+| **Cultivos** | `POST` | `/api/cultivos` | Registrar cultivo (`especie`, `superficie`, `fechaSiembra`, `productorId`) |
+| **Cultivos** | `GET` | `/api/cultivos/{id}` | Obtener cultivo por ID |
+| **Cultivos** | `PUT` | `/api/cultivos/{id}` | Actualizar cultivo |
+| **Cultivos** | `DELETE` | `/api/cultivos/{id}` | Eliminar cultivo (valida sin sensores ni alertas) |
+| **Sensores** | `GET` | `/api/sensores` | Listar sensores (filtro opcional: `?cultivoId=...`) |
+| **Sensores** | `POST` | `/api/sensores` | Registrar sensor (`tipo`, `ubicacion`, `estado`, `cultivoId`) |
+| **Sensores** | `GET` | `/api/sensores/{id}` | Obtener sensor por ID |
+| **Sensores** | `PUT` | `/api/sensores/{id}` | Actualizar sensor |
+| **Sensores** | `DELETE` | `/api/sensores/{id}` | Eliminar sensor (valida sin mediciones históricas) |
+| **Mediciones** | `GET` | `/api/mediciones` | Listar mediciones (filtro opcional: `?sensorId=...`) |
+| **Mediciones** | `POST` | `/api/mediciones` | Registrar telemetría y disparar evaluación de reglas |
+| **Mediciones** | `POST` | `/api/mediciones/{id}/procesar` | Reintentar sincronización de alertas |
+| **Alertas** | `GET` | `/api/alertas` | Listar alertas (filtros: `?cultivoId=...`, `?prioridad=...`) |
+| **Alertas** | `POST` | `/api/alertas` | Crear alerta manual con control de idempotencia |
+| **Swagger UI** | `GET` | `/swagger-ui.html` | Documentación interactiva OpenAPI |

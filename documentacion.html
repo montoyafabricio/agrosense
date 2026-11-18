@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgroSense - Informe Técnico y Arquitectura de Software</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 18mm 15mm 18mm 15mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      line-height: 1.55;
+      font-size: 10.5pt;
+      background-color: #f8fafc;
+      padding: 20px;
+    }
+
+    .document-container {
+      max-width: 850px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 45px 50px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 8px;
+    }
+
+    .print-bar {
+      position: sticky;
+      top: 15px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 25px;
+      z-index: 100;
+    }
+
+    .btn-pdf {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .btn-pdf:hover {
+      background: #059669;
+    }
+
+    .cover-page {
+      text-align: center;
+      padding: 30px 0 40px 0;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 35px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #ecfdf5;
+      color: #065f46;
+      font-weight: 600;
+      font-size: 11px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1px solid #a7f3d0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    h1 {
+      font-size: 26pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 13pt;
+      color: #475569;
+      margin-bottom: 25px;
+      font-weight: 400;
+    }
+
+    .meta-box {
+      display: inline-block;
+      text-align: left;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 24px;
+      font-size: 10pt;
+    }
+
+    .meta-box p {
+      margin: 4px 0;
+    }
+
+    .meta-box strong {
+      color: #0f172a;
+    }
+
+    h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: #0f172a;
+      border-bottom: 2px solid #10b981;
+      padding-bottom: 5px;
+      margin-top: 30px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 11.5pt;
+      font-weight: 600;
+      color: #1e293b;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 9pt;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    .diagram-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 9pt;
+      line-height: 1.4;
+      white-space: pre;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    .alert-card {
+      background: #fffbeb;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 9.5pt;
+    }
+
+    .page-break {
+      page-break-after: always;
+      break-after: page;
+    }
+
+    @media print {
+      body {
+        background: transparent;
+        padding: 0;
+      }
+
+      .document-container {
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+
+      .print-bar {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body onload="window.print()">
+
+  <div class="document-container">
+    
+    <div class="print-bar">
+      <button class="btn-pdf" onclick="window.print()">
+        🖨️ Guardar como PDF (Ctrl + P)
+      </button>
+    </div>
+
+    <!-- PORTADA -->
+    <div class="cover-page">
+      <span class="badge">Informe Técnico de Software</span>
+      <h1>AgroSense</h1>
+      <div class="subtitle">Sistema de Agricultura Inteligente con Arquitectura de Microservicios</div>
+
+      <div class="meta-box">
+        <p><strong>Autor / Alumno:</strong> Fabricio Montoya</p>
+        <p><strong>Materia:</strong> Programación / Arquitectura de Software</p>
+        <p><strong>Plataforma:</strong> Spring Boot 3.4 • Java 25 (LTS) • PostgreSQL • JUnit 5 • Jakarta Validation (DTOs)</p>
+        <p><strong>Repositorio GitHub:</strong> https://github.com/montoyafabricio/agrosense</p>
+        <p><strong>Fecha:</strong> Noviembre 2026</p>
+      </div>
+    </div>
+
+    <!-- 1. INTRODUCCIÓN Y OBJETIVOS -->
+    <h2>1. Introducción y Objetivos</h2>
+    <p>
+      <strong>AgroSense</strong> es una solución backend orientada a microservicios diseñada para la digitalización y monitoreo telemétrico de parcelas agrícolas.
+    </p>
+    <ul>
+      <li>Administrar de forma centralizada a los <strong>productores</strong> agrícolas y sus respectivos <strong>cultivos</strong>.</li>
+      <li>Gestionar la instalación de <strong>sensores</strong> ambientales (humedad y temperatura).</li>
+      <li>Registrar lecturas periódicas históricas (<strong>mediciones</strong>).</li>
+      <li>Evaluar de forma automática <strong>reglas agronómicas</strong> para generar <strong>alertas tempranas</strong> (estrés hídrico, exceso de humedad o temperaturas críticas), permitiendo optimizar el riego y prevenir daños en los cultivos.</li>
+    </ul>
+
+    <!-- 2. MODELO DE DOMINIO Y DIAGRAMA DE CLASES -->
+    <h2>2. Modelo de Dominio y Diagrama de Clases</h2>
+    <p>
+      El sistema respeta estrictamente el diagrama de clases original compuesto por <strong>cinco entidades de negocio</strong>:
+    </p>
+
+    <div class="diagram-box">
+[Productor] (1) ────────── (0..*) [Cultivo]
+                                     │ (1)
+                                     ├─────────── (0..*) [Sensor] (1) ───────── (0..*) [Medicion]
+                                     │                                                    │
+                                     └ (1) ────── (0..*) [Alerta] &lt;┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┘ (recibe)</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Entidad</th>
+          <th>Atributos</th>
+          <th>Tipo de Dato</th>
+          <th>Restricciones de Negocio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Productor</strong></td>
+          <td>id, nombre, contacto</td>
+          <td>UUID, String, String</td>
+          <td>Identificador generado por el servidor. Campos no vacíos. No se puede eliminar si posee cultivos asociados.</td>
+        </tr>
+        <tr>
+          <td><strong>Cultivo</strong></td>
+          <td>id, especie, superficie, fechaSiembra, productorId</td>
+          <td>UUID, String, Double, Date, UUID</td>
+          <td>Especie obligatoria. Superficie &gt; 0 (ha). Fecha válida YYYY-MM-DD. Referencia a productor existente. No se puede eliminar si posee sensores asociados.</td>
+        </tr>
+        <tr>
+          <td><strong>Sensor</strong></td>
+          <td>id, tipo, ubicacion, estado, cultivoId</td>
+          <td>UUID, Enum, String, Enum, UUID</td>
+          <td>Tipo: <code>humedad</code>, <code>temperatura</code> o <code>mixto</code>. Estado: <code>activo</code>, <code>inactivo</code> o <code>mantenimiento</code>. Solo sensores activos registran mediciones. No se elimina si tiene mediciones.</td>
+        </tr>
+        <tr>
+          <td><strong>Medicion</strong></td>
+          <td>id, temperatura, humedad, fecha, sensorId</td>
+          <td>UUID, Double, Double, DateTime, UUID</td>
+          <td>Registro histórico inmutable (sin PUT ni DELETE). Temperatura finita en °C y humedad entre 0% y 100%. Fecha ISO 8601 con zona horaria.</td>
+        </tr>
+        <tr>
+          <td><strong>Alerta</strong></td>
+          <td>id, tipo, descripcion, prioridad, fecha, cultivoId</td>
+          <td>UUID, String, String, Enum, DateTime, UUID</td>
+          <td>Registro histórico. Prioridad: <code>baja</code>, <code>media</code> o <code>alta</code>. Vinculada al cultivo. <em>Fiel al diagrama original: no incluye medicionId</em>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- 3. ARQUITECTURA DE SOFTWARE -->
+    <h2>3. Arquitectura de Software (Microservicios + Gateway)</h2>
+    <p>
+      Para garantizar alta cohesión y bajo acoplamiento, la solución se estructuró en <strong>4 microservicios de dominio</strong> y <strong>1 API Gateway</strong>:
+    </p>
+
+    <div class="diagram-box">
+                      [ Clientes / Postman / Frontend ]
+                                      │
+                               HTTP Puerto 8080
+                                      ▼
+                      ┌───────────────────────────────┐
+                      │          API GATEWAY          │
+                      │         (Puerto 8080)         │
+                      └───────────────┬───────────────┘
+                                      │
+        ┌──────────────────┬──────────┴───────────┬──────────────────┐
+        │ :3001            │ :3002                │ :3003            │ :3004
+        ▼                  ▼                      ▼                  ▼
+┌─────────────────┐ ┌─────────────────┐ ┌───────────────────┐ ┌─────────────────┐
+│ GestionService  │ │  SensorService  │ │  MedicionService  │ │  AlertaService  │
+│  (Productores   │ │    (Sensores)   │ │  (Mediciones y    │ │    (Alertas)    │
+│   y Cultivos)   │ │                 │ │      Reglas)      │ │                 │
+└─────────────────┘ └─────────────────┘ └───────────────────┘ └─────────────────┘
+        │                   │                     │                   │
+  Esquema gestion    Esquema sensores      Esquema mediciones  Esquema alertas
+        └───────────────────┴─────────────┬───────┴───────────────────┘
+                                          ▼
+                       PostgreSQL (Base: agrosense)</div>
+
+    <ul>
+      <li><strong>API Gateway (Puerto 8080):</strong> Único punto de acceso público. Enruta hacia los microservicios preservando métodos, headers, query params y body. Si un microservicio no responde, devuelve <code>HTTP 503</code>. Expone <code>GET /health</code>.</li>
+      <li><strong>GestionService (Puerto 3001):</strong> Administra Productores y Cultivos. Protege contra borrados indebidos de productores con cultivos o cultivos con sensores/alertas.</li>
+      <li><strong>SensorService (Puerto 3002):</strong> Gestiona el parque de sensores y valida por HTTP la existencia del cultivo en GestionService.</li>
+      <li><strong>MedicionService (Puerto 3003):</strong> Recibe lecturas, comprueba que el sensor esté activo, evalúa las reglas climáticas y despacha alertas. Habilita reintentos mediante <code>POST /api/mediciones/:id/procesar</code>.</li>
+      <li><strong>AlertaService (Puerto 3004):</strong> Persiste alertas y gestiona la idempotencia para evitar duplicados en reintentos.</li>
+    </ul>
+
+    <!-- 4. BASE DE DATOS Y PERSISTENCIA -->
+    <h2>4. Base de Datos y Persistencia (PostgreSQL)</h2>
+    <p>
+      Se utilizó PostgreSQL mediante una única base de datos denominada <code>agrosense</code>, dividida en <strong>cuatro esquemas lógicos independientes</strong>:
+    </p>
+    <ul>
+      <li><code>gestion</code>: tablas <code>productores</code> y <code>cultivos</code>.</li>
+      <li><code>sensores</code>: tabla <code>sensores</code>.</li>
+      <li><code>mediciones</code>: tablas <code>mediciones</code> y <code>mediciones_procesamiento</code>.</li>
+      <li><code>alertas</code>: tabla <code>alertas</code>.</li>
+    </ul>
+    <p>
+      <em>Decisión de Arquitectura:</em> Respetando las directrices de diseño modular y microservicios, <strong>no existen claves foráneas (FOREIGN KEY) entre tablas de esquemas pertenecientes a dominios distintos</strong>. La integridad referencial entre módulos se valida estrictamente a nivel de servicio en Spring Boot mediante validaciones programáticas e inyección de dependencias.
+    </p>
+
+    <!-- 5. DTOS Y VALIDACIONES -->
+    <h2>5. DTOs y Validaciones (Zod)</h2>
+    <p>
+      Cada microservicio desacopla las solicitudes entrantes y salientes mediante Data Transfer Objects (DTO) con la librería <strong>Zod</strong>:
+    </p>
+    <ul>
+      <li><strong>Modo Estricto (<code>.strict()</code>):</strong> Rechaza cualquier campo que no pertenezca a la entidad.</li>
+      <li><strong>Inmutabilidad de identificadores:</strong> El cliente no puede suministrar su propio <code>id</code> al crear recursos; siempre es asignado por el servidor como UUID v4.</li>
+      <li><strong>Actualizaciones completas (<code>PUT</code>):</strong> Se exige la totalidad de los atributos editables para garantizar la consistencia del recurso (sin soporte de PATCH parcial).</li>
+      <li><strong>Validación estricta de rangos:</strong> Temperaturas finitas, humedad acotada entre 0 y 100%, y fechas válidas en calendario.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- 6. REGLAS AUTOMÁTICAS DE AGRICULTURA INTELIGENTE -->
+    <h2>6. Reglas Automáticas de Agricultura Inteligente</h2>
+    <p>
+      El servicio <code>MedicionService</code> centraliza la evaluación climática con <strong>comparaciones estrictas</strong>:
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Regla</th>
+          <th>Condición Estricta</th>
+          <th>Tipo Alerta</th>
+          <th>Prioridad</th>
+          <th>Mensaje Preventivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Humedad Baja</strong></td>
+          <td><code>humedad &lt; 30.0%</code></td>
+          <td><code>RIEGO</code></td>
+          <td>Alta</td>
+          <td>Revisar la necesidad de riego por déficit hídrico.</td>
+        </tr>
+        <tr>
+          <td><strong>2. Humedad Alta</strong></td>
+          <td><code>humedad &gt; 80.0%</code></td>
+          <td><code>EXCESO_HUMEDAD</code></td>
+          <td>Media</td>
+          <td>Revisar el drenaje antes de regar para evitar anegamiento.</td>
+        </tr>
+        <tr>
+          <td><strong>3. Temperatura Alta</strong></td>
+          <td><code>temperatura &gt; 35.0°C</code></td>
+          <td><code>CALOR</code></td>
+          <td>Alta</td>
+          <td>Revisar las condiciones del cultivo por estrés térmico.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Los valores de corte exactos (<code>30.0</code>, <code>80.0</code> y <code>35.0</code>) <strong>no disparan alertas</strong>. Una misma medición puede generar múltiples alertas simultáneas (por ejemplo, temperatura 38°C y humedad 20% disparan conjuntamente <code>RIEGO</code> y <code>CALOR</code>).
+    </p>
+    <div class="alert-card">
+      <strong>Manejo de Idempotencia:</strong> Como la entidad <code>Alerta</code> no tiene <code>medicionId</code> en el diagrama original, la prevención de alertas duplicadas se implementó técnicamente en <code>AlertaService</code> mediante verificación temporal y de tipo, permitiendo reintentar mediciones pendientes sin duplicar registros.
+    </div>
+
+    <!-- 7. CATÁLOGO DE ENDPOINTS DE LA API -->
+    <h2>7. Catálogo de Endpoints de la API (Gateway :8080)</h2>
+    <p>Todas las rutas son públicas a través del API Gateway en el puerto 8080:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Recurso</th>
+          <th>Método</th>
+          <th>Endpoint</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Salud</strong></td><td><code>GET</code></td><td><code>/health</code></td><td>Estado del Gateway y los 4 microservicios</td></tr>
+        <tr><td><strong>Productores</strong></td><td><code>GET</code></td><td><code>/api/productores</code></td><td>Listar todos los productores</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/productores</code></td><td>Registrar nuevo productor</td></tr>
+        <tr><td></td><td><code>GET</code></td><td><code>/api/productores/:id</code></td><td>Consultar productor por UUID</td></tr>
+        <tr><td></td><td><code>PUT</code></td><td><code>/api/productores/:id</code></td><td>Actualización completa de productor</td></tr>
+        <tr><td></td><td><code>DELETE</code></td><td><code>/api/productores/:id</code></td><td>Eliminar (solo si no posee cultivos asociados)</td></tr>
+        <tr><td><strong>Cultivos</strong></td><td><code>GET</code></td><td><code>/api/cultivos</code></td><td>Listar cultivos</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/cultivos</code></td><td>Registrar cultivo asociado a un productor</td></tr>
+        <tr><td></td><td><code>GET</code></td><td><code>/api/cultivos/:id</code></td><td>Consultar cultivo por UUID</td></tr>
+        <tr><td></td><td><code>PUT</code></td><td><code>/api/cultivos/:id</code></td><td>Actualización completa de cultivo</td></tr>
+        <tr><td></td><td><code>DELETE</code></td><td><code>/api/cultivos/:id</code></td><td>Eliminar (solo si no posee sensores ni alertas)</td></tr>
+        <tr><td><strong>Sensores</strong></td><td><code>GET</code></td><td><code>/api/sensores</code></td><td>Listar sensores (filtro opcional: <code>?cultivoId=UUID</code>)</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/sensores</code></td><td>Registrar sensor en un cultivo</td></tr>
+        <tr><td></td><td><code>GET</code></td><td><code>/api/sensores/:id</code></td><td>Consultar sensor por UUID</td></tr>
+        <tr><td></td><td><code>PUT</code></td><td><code>/api/sensores/:id</code></td><td>Actualización completa de sensor</td></tr>
+        <tr><td></td><td><code>DELETE</code></td><td><code>/api/sensores/:id</code></td><td>Eliminar (solo si no posee mediciones)</td></tr>
+        <tr><td><strong>Mediciones</strong></td><td><code>GET</code></td><td><code>/api/mediciones</code></td><td>Listar mediciones (filtro opcional: <code>?sensorId=UUID</code>)</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/mediciones</code></td><td>Registrar medición climática y disparar reglas</td></tr>
+        <tr><td></td><td><code>GET</code></td><td><code>/api/mediciones/:id</code></td><td>Consultar medición histórica</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/mediciones/:id/procesar</code></td><td>Reintentar procesamiento de alertas pendientes</td></tr>
+        <tr><td><strong>Alertas</strong></td><td><code>GET</code></td><td><code>/api/alertas</code></td><td>Listar alertas (filtros: <code>?cultivoId=UUID</code> y <code>?prioridad=alta</code>)</td></tr>
+        <tr><td></td><td><code>POST</code></td><td><code>/api/alertas</code></td><td>Registrar alerta manual para un cultivo</td></tr>
+        <tr><td></td><td><code>GET</code></td><td><code>/api/alertas/:id</code></td><td>Consultar alerta por UUID</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 8. LIMITACIONES TÉCNICAS -->
+    <h2>8. Limitaciones Técnicas del Prototipo</h2>
+    <ol>
+      <li><strong>Requerimiento conjunto de variables:</strong> Por especificación del prototipo académico, toda medición exige registrar temperatura y humedad simultáneamente, aun cuando el sensor físico haya sido catalogado como univariable.</li>
+      <li><strong>Consistencia eventual frente a transacciones distribuidas:</strong> No se implementa un coordinador pesado de 2PC (Two-Phase Commit). La consistencia ante fallos se resuelve por compensación lógica: la medición se guarda con estado <code>pendiente</code> y se provee el endpoint de reintento idempotente.</li>
+      <li><strong>Carácter informativo de las alertas:</strong> El software emite notificaciones orientativas y no acciona directamente bombas ni electroválvulas en campo.</li>
+    </ol>
+
+    <!-- 9. CONCLUSIÓN -->
+    <h2>9. Conclusiones</h2>
+    <p>
+      El proyecto <strong>AgroSense</strong> demuestra el diseño e implementación exitosa de un ecosistema backend moderno, desacoplado y resiliente, desarrollado en <strong>Java 25 (LTS)</strong> bajo <strong>Spring Boot 3</strong>. La separación en cuatro esquemas dedicados en <strong>PostgreSQL</strong>, el diseño basado en <strong>DTOs con Jakarta Validation</strong>, el motor de reglas agronómicas y la cobertura integral con <strong>JUnit 5</strong> garantizan un sistema escalable, fuertemente tipado, seguro y fiel al modelo conceptual de clases planteado.
+    </p>
+
+  </div>
+
+</body>
+</html>

@@ -1,6 +1,24 @@
-node_modules/
+# Maven & Java
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Environment
 .env
+
+# Logs & temp
 *.log
-npm-debug.log*
-.DS_Store
-Thumbs.db
