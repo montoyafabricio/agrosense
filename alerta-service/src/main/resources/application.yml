@@ -6,8 +6,8 @@ spring:
     name: alerta-service
   datasource:
     url: jdbc:postgresql://localhost:5432/agrosense
-    username: postgres
-    password: fabricio1806
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
