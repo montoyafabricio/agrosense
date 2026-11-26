@@ -1,6 +1,6 @@
-# AgroSense 🌱 (Spring Boot & Java 25)
+# AgroSense 🌱 (Spring Boot & Java 21 LTS)
 
-> Sistema de agricultura inteligente basado en una arquitectura backend modular en **Spring Boot 3** y **Java 25 (LTS)** para la telemetría, monitoreo y reglas agronómicas automatizadas sobre parcelas agrícolas.
+> Sistema de agricultura inteligente basado en una arquitectura backend modular en **Spring Boot 3** y **Java 21 (LTS)** para la telemetría, monitoreo y reglas agronómicas automatizadas sobre parcelas agrícolas.
 
 ---
 
@@ -8,7 +8,7 @@
 
 **AgroSense** centraliza la ingesta y validación de datos telemétricos provenientes de sensores en campo (humedad y temperatura), evalúa reglas agronómicas en tiempo real y dispara alertas automatizadas con control de idempotencia para prevenir daños en cultivos.
 
-El proyecto está desarrollado completamente en **Java 25**, utilizando **Spring Boot 3**, **Spring Data JPA**, **Jakarta Bean Validation (DTOs)**, **PostgreSQL** con múltiples esquemas de base de datos (`gestion`, `sensores`, `mediciones`, `alertas`) y pruebas exhaustivas con **JUnit 5**.
+El proyecto está desarrollado completamente en **Java 21 (LTS)**, utilizando **Spring Boot 3**, **Spring Data JPA**, **Jakarta Bean Validation (DTOs)**, **PostgreSQL** con múltiples esquemas de base de datos (`gestion`, `sensores`, `mediciones`, `alertas`) y pruebas exhaustivas con **JUnit 5**.
 
 ---
 
@@ -29,11 +29,11 @@ El sistema implementa una arquitectura desacoplada por módulos de dominio bajo 
 
 ## 🛠️ Stack Tecnológico
 
-- **Runtime:** Java 25 (LTS)
+- **Runtime:** Java 21 (LTS)
 - **Framework:** Spring Boot 3.4.0
 - **Persistencia:** Spring Data JPA / Hibernate
 - **Base de Datos:** PostgreSQL (Driver nativo `org.postgresql:postgresql`)
-- **Validación de Datos:** Jakarta Bean Validation (`spring-boot-starter-validation`) con Java 25 Records como DTOs
+- **Validación de Datos:** Jakarta Bean Validation (`spring-boot-starter-validation`) con Java Records como DTOs
 - **Documentación de API:** OpenAPI 3 & Swagger UI (`springdoc-openapi`)
 - **Testing:** JUnit 5 (Jupiter), Mockito, MockMvc, H2 Database para pruebas aisladas
 - **Build Tool:** Apache Maven & Maven Wrapper (`mvnw` / `mvnw.cmd`)
@@ -46,7 +46,7 @@ El repositorio cuenta tanto con el **Backend Modular Principal** (Spring Boot un
 
 ```text
 agrosense/
-├── pom.xml                                      # Configuración Maven raíz (Java 25 y Spring Boot 3)
+├── pom.xml                                      # Configuración Maven raíz (Java 21 y Spring Boot 3)
 ├── mvnw / mvnw.cmd                              # Maven Wrapper para compilación sin requerir Maven instalado
 ├── .mvn/wrapper/                                # Configuración del Wrapper de Maven
 ├── database/
@@ -83,7 +83,7 @@ agrosense/
 ## 🚀 Puesta en Marcha
 
 ### 1. Prerrequisitos
-- **Java Development Kit (JDK) 25** instalado (disponible en `C:\Program Files\Java\jdk-25.0.4.1` o variable `JAVA_HOME`).
+- **Java Development Kit (JDK) 21** (LTS) instalado y configurado en `JAVA_HOME`.
 - **PostgreSQL** corriendo localmente en el puerto `5432` con la base de datos `agrosense`.
 
 ### 2. Configurar Base de Datos PostgreSQL
