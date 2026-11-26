@@ -42,34 +42,39 @@ El sistema implementa una arquitectura desacoplada por módulos de dominio bajo 
 
 ## 📂 Estructura del Proyecto
 
+El repositorio cuenta tanto con el **Backend Modular Principal** (Spring Boot unificado en `src/`) como con los **Módulos de Microservicios Independientes** correspondientes:
+
 ```text
 agrosense/
-├── pom.xml                                      # Configuración Maven con Java 25 y Spring Boot
+├── pom.xml                                      # Configuración Maven raíz (Java 25 y Spring Boot 3)
 ├── mvnw / mvnw.cmd                              # Maven Wrapper para compilación sin requerir Maven instalado
 ├── .mvn/wrapper/                                # Configuración del Wrapper de Maven
 ├── database/
 │   └── init.sql                                 # Script SQL DDL de inicialización de esquemas y tablas
-├── src/
+├── src/                                         # Backend Modular Principal (Spring Boot)
 │   ├── main/
 │   │   ├── java/com/agrosense/
 │   │   │   ├── AgroSenseApplication.java        # Punto de entrada principal Spring Boot
-│   │   │   ├── config/                          # Configuración CORS y Web
-│   │   │   ├── controller/                      # Controladores REST (/api/productores, cultivos, etc.)
+│   │   │   ├── config/                          # Configuración CORS y Web (WebConfig.java)
+│   │   │   ├── controller/                      # Controladores REST (incluye HealthController en /health)
 │   │   │   ├── dto/                             # Data Transfer Objects (Records) con validaciones estrictas
 │   │   │   ├── exception/                       # Manejador global de excepciones y respuestas de error
-│   │   │   ├── model/                           # Entidades JPA y Enums vinculados a los esquemas PostgreSQL
+│   │   │   ├── model/                           # Entidades JPA y Enums vinculados a PostgreSQL
 │   │   │   ├── repository/                      # Repositorios Spring Data JPA
 │   │   │   └── service/                         # Lógica de negocio y motor de reglas agronómicas
 │   │   └── resources/
 │   │       ├── application.yml                  # Configuración de PostgreSQL y aplicación
 │   │       ├── schema.sql                       # DDL de PostgreSQL
 │   │       └── db/migration/                    # Migraciones Flyway
-│   └── test/
-│       └── java/com/agrosense/
-│           ├── rules/                           # Pruebas unitarias del motor de reglas agronómicas
-│           ├── dto/                             # Pruebas unitarias de validación Jakarta Bean Validation
-│           ├── service/                         # Pruebas unitarias de servicios con Mockito
-│           └── controller/                      # Pruebas de integración WebMvcTest con MockMvc
+│   └── test/                                    # Pruebas unitarias y de integración
+├── api-gateway/                                 # API Gateway independiente (Spring Cloud Gateway :8080)
+│   └── src/main/java/com/agrosense/gateway/
+│       ├── config/CorsConfig.java               # Configuración CORS reactiva
+│       └── controller/HealthController.java     # Endpoint /health
+├── gestion-service/                             # Microservicio de Productores y Cultivos (:3001)
+├── sensor-service/                              # Microservicio de Sensores IoT (:3002)
+├── medicion-service/                            # Microservicio de Ingesta y Reglas (:3003)
+├── alerta-service/                              # Microservicio de Alertas e Incidentes (:3004)
 └── README.md
 ```
 
